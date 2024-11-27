@@ -15,18 +15,4 @@ pub mod bonding_curve {
 }
 
 #[derive(Accounts)]
-pub struct Initialize<'info> {
-    #[account(init, payer=sender_of_tweet, space= 89)]
-    my_test: Account<'info, TweetOnSolana>,
-    #[account(mut)]
-    pub sender_of_tweet: Signer<'info>,
-    pub system_program: Program<'info, System>,
-}
-
-#[account]
-pub struct TweetOnSolana {
-    pub author: Pubkey,
-    pub timestamp: i64,
-    pub topic: String,
-    pub content: String,
-}
+pub struct Initialize {}
