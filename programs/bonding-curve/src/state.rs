@@ -33,3 +33,23 @@ pub enum MigrationTarget {
     Raydium,
     Meteora,
 }
+
+#[account]
+pub struct ConfigAccount {
+    pub migration_authority: Pubkey,
+    pub backend_authority: Pubkey,
+    pub config_authority: Pubkey,
+    pub helio_fee: Pubkey,
+    pub dex_fee: Pubkey,
+    pub fee_bps: Pubkey,
+    pub dex_fee_share: u8,
+    pub migration_fee: u64,
+    pub marketcap_threshold: u64,
+    pub marketcap_currency: Currency,
+    pub min_supported_decimal_places: u8,
+    pub max_supported_decimal_places: u8,
+    pub min_supported_token_supply: u64,
+    pub max_supported_token_supply: u64,
+    pub bump: u8,
+    pub coef_b: u32,
+}
