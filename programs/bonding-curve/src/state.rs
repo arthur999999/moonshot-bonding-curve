@@ -53,3 +53,26 @@ pub struct ConfigAccount {
     pub bump: u8,
     pub coef_b: u32,
 }
+
+impl ConfigAccount {
+    pub const ACCOUNT_SIZE: usize =
+        8 +   // discriminator 
+        32 + 
+        32 + 
+        32 + 
+        32 + 
+        32 + 
+        32 + 
+        1 + 
+        8 + 
+        8 + 
+        1 + 
+        1 + 
+        1 + 
+        8 + 
+        8 + 
+        1 + 
+        4;
+
+    pub const SEED_PREFIX: &str = "config_account";
+}
