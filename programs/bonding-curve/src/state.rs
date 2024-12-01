@@ -1,6 +1,8 @@
 use anchor_lang::prelude::*;
 use borsh::{BorshDeserialize, BorshSerialize};
 
+use crate::{errors::Errors, instructions::config_init::ConfigParams};
+
 #[account]
 pub struct CurveAccount {
     pub total_supply: u64,
@@ -41,7 +43,7 @@ pub struct ConfigAccount {
     pub config_authority: Pubkey,
     pub helio_fee: Pubkey,
     pub dex_fee: Pubkey,
-    pub fee_bps: Pubkey,
+    pub fee_bps: u16,
     pub dex_fee_share: u8,
     pub migration_fee: u64,
     pub marketcap_threshold: u64,
@@ -62,7 +64,7 @@ impl ConfigAccount {
         32 + 
         32 + 
         32 + 
-        32 + 
+        4 + 
         1 + 
         8 + 
         8 + 
@@ -75,4 +77,25 @@ impl ConfigAccount {
         4;
 
     pub const SEED_PREFIX: &str = "config_account";
+
+    pub fn new(config_params: ConfigParams, bump: u8) -> Result<Self> {
+        Ok(Self{ 
+            migration_authority: config_params.migration_authority.ok_or(Errors::ConfigFiledMissing)?, 
+            backend_authority: config_params.backend_authority.ok_or(Errors::ConfigFiledMissing)?,
+            config_authority: config_params.config_authority.ok_or(Errors::ConfigFiledMissing)?,
+            helio_fee: config_params.helio_fee.ok_or(Errors::ConfigFiledMissing)?,
+            dex_fee: config_params.dex_fee.ok_or(Errors::ConfigFiledMissing)?,
+            fee_bps: config_params.fee_bps.ok_or(Errors::ConfigFiledMissing)?,
+            dex_fee_share: config_params.dex_fee_share.ok_or(Errors::ConfigFiledMissing)?,
+            migration_fee: config_params.migration_fee.ok_or(Errors::ConfigFiledMissing)?,
+            marketcap_threshold: config_params.marketcap_threshold.ok_or(Errors::ConfigFiledMissing)?,
+            marketcap_currency: Currency::Sol,
+            min_supported_decimal_places: config_params.min_supported_decimal_places.ok_or(Errors::ConfigFiledMissing)?,
+            max_supported_decimal_places: config_params.max_supported_decimal_places.ok_or(Errors::ConfigFiledMissing)?,
+            min_supported_token_supply: config_params.min_supported_token_supply.ok_or(Errors::ConfigFiledMissing)?,
+            max_supported_token_supply: config_params.max_supported_token_supply.ok_or(Errors::ConfigFiledMissing)?, 
+            bump, 
+            coef_b: config_params.coef_b.ok_or(Errors::ConfigFiledMissing)?
+        })
+    }
 }
