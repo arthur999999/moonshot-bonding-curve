@@ -1,8 +1,13 @@
 use anchor_lang::prelude::*;
 
-use crate::state::ConfigAccount;
+use crate::{consts::CONFIG_INIT_AUTHORITY, errors::Errors, state::ConfigAccount};
 
 pub fn config_init(ctx: Context<ConfigInit>, config_params: ConfigParams) -> Result<()> {
+    //only authorized accounts can create account configs
+    if ctx.accounts.config_authority.key.to_string() != CONFIG_INIT_AUTHORITY {
+        return err!(Errors::InvalidAuthority);
+    }
+
     let config = &mut ctx.accounts.config_account;
 
     let config_account = ConfigAccount::new(config_params, ctx.bumps.config_account)?;
