@@ -1,5 +1,4 @@
 use anchor_lang::prelude::*;
-use borsh::{BorshDeserialize, BorshSerialize};
 
 use crate::{errors::Errors, instructions::config_init::ConfigParams};
 
@@ -19,18 +18,18 @@ pub struct CurveAccount {
     pub migration_target: MigrationTarget,
 }
 
-#[derive(Clone, BorshDeserialize, BorshSerialize)]
+#[derive(Clone, AnchorSerialize, AnchorDeserialize)]
 pub enum CurveType {
     LinearV1,
     ConstantProduct,
 }
 
-#[derive(Clone, BorshDeserialize, BorshSerialize)]
+#[derive(Clone, AnchorDeserialize, AnchorSerialize)]
 pub enum Currency {
     Sol,
 }
 
-#[derive(Clone, BorshDeserialize, BorshSerialize)]
+#[derive(Clone, AnchorSerialize, AnchorDeserialize)]
 pub enum MigrationTarget {
     Raydium,
     Meteora,

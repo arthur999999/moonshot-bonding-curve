@@ -34,6 +34,7 @@ pub struct ConfigInit<'info> {
     pub system_program: Program<'info, System>,
 }
 
+#[derive(Debug, AnchorSerialize, AnchorDeserialize)]
 pub struct ConfigParams {
     pub migration_authority: Option<Pubkey>,
     pub backend_authority: Option<Pubkey>,
