@@ -13,12 +13,6 @@ describe("bonding-curve", () => {
     const provider = anchor.getProvider();
     const user = provider.publicKey;
 
-    const [configPda, bump] = await anchor.web3.PublicKey.findProgramAddress(
-      [Buffer.from("config_account")],
-      program.programId
-    );
-
-
     const configParams = {
       migrationAuthority: anchor.web3.Keypair.generate().publicKey,                   
       backendAuthority: anchor.web3.Keypair.generate().publicKey, 
